@@ -1,7 +1,8 @@
 **Udacity QUIZZ PROJECT**
 
-To create a bonding experience for employees and studens , this project will build out a provided  Trivia App API to make all web frontend pages functional.
+This project is my  second project in Full Stack Developer Nanodegree and it comes to build a bonding experience for employees and studens Of Udacity, this project will build out a provided  Trivia App API to make all web frontend pages functional.
 
+I used and inspired from a   provided examples coding from instructor's videos course.
 For this project we use virtual environement venv to manage separatly all dependencies needed by project 
 
 # create and activate a virtual environment
@@ -19,9 +20,9 @@ to install all needed moduls including Flask ,SQLAlchemy ,Flask-Cors and softwar
 
 with postgres running lunch:
 psql trivia < trivia.psql
-after moving to backend directory , run the backend :
+after moving to [starter] directory , run the backend as following:
 # For Mac/Linux
-export FLASK_APP=flaskr
+export FLASK_APP=backend/flaskr
 export FLASK_ENV=development
 # Make sure to run this command from the project directory (not from the flaskr)
 flask run
@@ -40,11 +41,11 @@ All API Endpoints where tested by TDD Approach.
 
 **Getting started**
 
-This app can be hosted only locally at base url : (http://127.0.0.1:5000/) and it communicates with frontend part.
+This app can be hosted only locally at following base url : (http://127.0.0.1:5000/) and it communicates with frontend part(given by Udacity as ready implemented part).
 
 **Errors handling**
 
-the errors are returned in the following json formats :
+the errors are returned in the following [json formats] :
 
 {
   "error": 422, 

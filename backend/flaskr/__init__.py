@@ -8,6 +8,9 @@ from sqlalchemy import or_
 
 from models import setup_db, Question, Category, RequestError
 
+# general project structure with empty TODOs was given by Udacity as initial starter code
+# the major parts of endpoint implementations are inspired from instructions video course(including how pagination is implemented),
+#  a personalized implemention in quizz endpoint
 QUESTIONS_PER_PAGE = 10
 
 def paginate_questions(request,selection):
@@ -73,7 +76,7 @@ def create_app(test_config=None):
   @app.route('/questions') 
   def get_all_questions():
     ret_category = request.args.get('current_category','1',type=int)
-    current_page = request.args.get('page',1,type=int)
+    #current_page = request.args.get('page',1,type=int)
     #print(current_page )
     questions = Question.query.order_by(Question.id).all()
     current_questions = paginate_questions(request,questions)
@@ -268,9 +271,8 @@ def create_app(test_config=None):
         #print(current_category.format())
         if current_category is None :
          raise RequestError(404)
-        else :
-         list_categories =[categ.format() for categ in categories]
-         return jsonify({
+        
+        return jsonify({
               'success':True,
               'questions':list_questions[start:end],
               'totalQuestions':len(list_questions),
@@ -312,7 +314,7 @@ def create_app(test_config=None):
       print("quiz_category")
       print(quiz_category)
       #print(quiz_category['id'])
-      # as detected : frontend sends {'type': 'click', 'id': 0} object when all selected so we use this to test
+      # as detected : frontend sends {'type': 'click', 'id': 0} object when "all categories" button is selected so we use this to test
       questions_to_select_from =  Question.query.filter(Question.id.notin_((previous_questions))).order_by('id').filter(or_(Question.category == quiz_category['id'],  0 == quiz_category['id'])).all()
       
       
