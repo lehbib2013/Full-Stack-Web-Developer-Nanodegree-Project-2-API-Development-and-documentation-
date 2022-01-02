@@ -1,4 +1,4 @@
-**Udacity QUIZZ PROJECT**
+# Udacity QUIZZ PROJECT
 
 This project is my  second project in Full Stack Developer Nanodegree and it comes to build a bonding experience for employees and studens Of Udacity, this project will build out a provided  Trivia App API to make all web frontend pages functional.
 
@@ -6,18 +6,20 @@ I used and inspired from a   provided examples coding from instructor's videos c
 For this project we use virtual environement venv to manage separatly all dependencies needed by project 
 
 # create and activate a virtual environment
+```
 python3 -m venv venv
 source venv/bin/activate
+```
 
 
 # Getting Started
 
 # Pererequisites  & Installations
 Python3 ,pip3 and node are required for a developper to use  current API.
-
+```
 to install all needed moduls including Flask ,SQLAlchemy ,Flask-Cors and softwares :
    pip3 install requirements.txt
-
+```
 with postgres running lunch:
 psql trivia < trivia.psql
 after moving to [starter] directory , run the backend as following:
