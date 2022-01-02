@@ -21,19 +21,27 @@ to install all needed moduls including Flask ,SQLAlchemy ,Flask-Cors and softwar
 with postgres running lunch:
 psql trivia < trivia.psql
 after moving to [starter] directory , run the backend as following:
+
 # For Mac/Linux
+```
 export FLASK_APP=backend/flaskr
 export FLASK_ENV=development
+```
 # Make sure to run this command from the project directory (not from the flaskr)
+```
 flask run
+```
 
 
 # Tests
 For Tests, you need to lunch following command to prepare test environement.
+```
 dropdb trivia_test
 createdb trivia_test
 psql trivia_test < trivia.psql
 python test_flaskr.py
+
+```
 
 All API Endpoints where tested by TDD Approach.
 
@@ -46,7 +54,7 @@ This app can be hosted only locally at following base url : (http://127.0.0.1:50
 **Errors handling**
 
 the errors are returned in the following [json formats] :
-
+```
 {
   "error": 422, 
   "message": "Unprocessoble error", 
@@ -57,47 +65,33 @@ The API can return following error codes:
 422 : if error is not processable 
 400 : if the request is bad
 405 : if the method is not allowed
-
+```
 
 **Endpoints**
  
  # GET /categories
 retuns a ist of categories 
+```
 sample:  curl http://127.0.0.1:5000/categories
-                    {
-                    "categories": [
-                        {
-                        "id": 1, 
-                        "type": "Science"
-                        }, 
-                        {
-                        "id": 2, 
-                        "type": "Art"
-                        }, 
-                        {
-                        "id": 3, 
-                        "type": "Geography"
-                        }, 
-                        {
-                        "id": 4, 
-                        "type": "History"
-                        }, 
-                        {
-                        "id": 5, 
-                        "type": "Entertainment"
-                        }, 
-                        {
-                        "id": 6, 
-                        "type": "Sports"
-                        }
-                    ], 
-                    "success": true, 
-                    "totalCategories": 6
-                    }
+
+    {
+     "categories":{ "1":"Science",
+         "2":"Art",
+         "3":"Geography",
+         "4":"History",
+         "5":"Entertainment",
+         "6":"Sports" },
+     "success":true,
+     "totalCategories":6
+    }
+```
 
 # GET /questions
 return paginated questions 
-sample:  http://127.0.0.1:5000/questions?page=1
+
+```
+sample:  curl 'http://127.0.0.1:5000/questions?page=1'
+
                 {
                 "categories": [
                     {
@@ -201,10 +195,13 @@ sample:  http://127.0.0.1:5000/questions?page=1
                 "success": true, 
                 "totalQuestions": 19
                 }
+```
 
 # DELETE /questions/<int:question_id>
 delete a question by providing it ID .
+```
 sample :  curl -X DELETE http://127.0.0.1:5000/questions/17 
+
             {
             "deleted": 17, 
             "questions": [
@@ -282,11 +279,12 @@ sample :  curl -X DELETE http://127.0.0.1:5000/questions/17
             "success": true, 
             "totalQuestions": 15
            }
+```
 
 # POST /questions
 this end point combine two functionalties with different returned json responses:
    1. **adds a question into database** .
-   
+   ```
    sample : curl -X POST -H "Content-Type: application/json" -d '{"question":"ou est aTAR ","answer":"a ADRAR","category":"2","difficulty":"3"}' http://127.0.0.1:5000/questions
 
             {
@@ -366,11 +364,13 @@ this end point combine two functionalties with different returned json responses
             "success": true, 
             "totalQuestions": 18
             }
-
+    ```
     
-   2. **get all questions including search term (case insensitive)**:
+   2.**get all questions including search term (case insensitive)**:
+   ```
    sample : 
     curl -X POST -H "Content-Type: application/json" -d '{"search_term":"africa"}' http://127.0.0.1:5000/questions
+
      
                 {
 
@@ -405,11 +405,16 @@ this end point combine two functionalties with different returned json responses
                 "totalQuestions": 1
 
                 }
+    ```
+
 
  
 # GET /categories/<int:id_category>/questions
 returns questions of given category
+```
 sample : curl -X GET http://127.0.0.1:5000/categories/3/questions
+
+
         {
 
         "currentCategory": {
@@ -443,17 +448,27 @@ sample : curl -X GET http://127.0.0.1:5000/categories/3/questions
         "totalQuestions": 1
 
         }
+```
 
 
       
 # POST /quizzes
 get questions to play the quiz. It takes category and previous question parameters 
 and return a random questions within the given category, if provided, and that is not one of the previous questions.
+```
+sample : curl -X POST 'localhost:5000/quizzes' --data '{"previous_questions": [12, 5, 9], "quiz_category": {"type": "History", "id": 2}}' --header "Content-Type: application/json"
 
-sample : curl -X POST 'localhost:3000/quizzes' --data '{"previous_questions": [12, 5, 9], "quiz_category": {"type": "History", "id": 2}}' --header "Content-Type: application/json"
-  
+    {
+    "question":  {
+    "answer":"a ADRAR",
+    "category":2,
+    "difficulty":3,
+    "id":25,
+    "question":"ou est aTAR "
+                  }
+    }
 
-
+```
 
 # Authors
 

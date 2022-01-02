@@ -76,8 +76,8 @@ def create_app(test_config=None):
   @app.route('/questions') 
   def get_all_questions():
     ret_category = request.args.get('current_category','1',type=int)
-    #current_page = request.args.get('page',1,type=int)
-    #print(current_page )
+    
+    
     questions = Question.query.order_by(Question.id).all()
     current_questions = paginate_questions(request,questions)
     if len(current_questions) == 0:
@@ -128,13 +128,7 @@ def create_app(test_config=None):
     except:
       #print(sys.exc_info()) 
       abort(422)
-    
-    
-         
-        
   
-      
-   
   '''
   @TODO: 
   Create an endpoint to POST a new question, 
@@ -161,10 +155,6 @@ def create_app(test_config=None):
   @app.route("/questions",methods=['POST'])
   def quetions_post_request():
     body = request.get_json()
-    #print("body")
-    #print(body)
-
-    
     
     try:
       
@@ -174,13 +164,10 @@ def create_app(test_config=None):
       new_answer_text = body.get('answer',None)
       new_category = body.get('category',None)
       new_difficulty = body.get('difficulty',None)
-     
-
-
       if search_term is not None :
 
-        #print("searchTerm")
-        #print(search_term)
+        
+        
         questions_result = Question.query.filter(Question.question.ilike(f'%{search_term}%')).all()
       
         list_questions =[quest.format() for quest in questions_result]
@@ -188,7 +175,14 @@ def create_app(test_config=None):
         current_category = Category.query.filter(Category.id == current_categ).one_or_none()
 
         if len(list_questions) == 0 :
-          raise RequestError(404)
+          return jsonify({
+                    'success':True,
+                    'questions':[],
+                    'totalQuestions':0,
+                    'currentCategory': current_category.format(),
+                    
+                })
+          #raise RequestError(404)
 
       
         return jsonify({
@@ -199,7 +193,7 @@ def create_app(test_config=None):
                     
                 })
       else:
-        if (new_question_text is not None) and (new_answer_text is not None) :
+        if (new_question_text is not None) and (new_answer_text is not None) and len(new_question_text)>0 and len(new_answer_text)>0:
 
           try:
             to_be_added = Question(question=new_question_text, answer=new_answer_text, category=new_category, difficulty=new_difficulty)
@@ -219,30 +213,12 @@ def create_app(test_config=None):
             abort(error.status)
           except:
             abort(422)
-        
-
-        
-
-       
-
-
-    
     except RequestError as error:
       #print(sys.exc_info()) 
       abort(error.status)
     except:
        print(sys.exc_info()) 
        abort(422)
-
-
-
-     
-
-    
-    
-    
-
-
 
   '''
   @TODO: 
@@ -259,16 +235,16 @@ def create_app(test_config=None):
         start = (current_page - 1) * QUESTIONS_PER_PAGE
         end = start + QUESTIONS_PER_PAGE
         questions = Question.query.filter(Question.category == id_category).order_by(Question.id).all()
-        #print("'questions'")
-        # print(len(questions))
+        
+        
         if len(questions) == 0:
          raise RequestError(404)
 
         list_questions =[quest.format() for quest in questions]
-        categories = Category.query.order_by(Category.id).all()
+        
         current_category= Category.query.filter(Category.id == id_category).one_or_none()
-        #print("'current_category'")
-        #print(current_category.format())
+        
+        
         if current_category is None :
          raise RequestError(404)
         
@@ -304,32 +280,23 @@ def create_app(test_config=None):
     body = request.get_json()
 
     try:
-
-      
       previous_questions = body.get('previous_questions',None)
-      #print("previous_questions")
-      #print(previous_questions)
-      
       quiz_category = body.get('quiz_category',None)
       print("quiz_category")
       print(quiz_category)
-      #print(quiz_category['id'])
       # as detected : frontend sends {'type': 'click', 'id': 0} object when "all categories" button is selected so we use this to test
       questions_to_select_from =  Question.query.filter(Question.id.notin_((previous_questions))).order_by('id').filter(or_(Question.category == quiz_category['id'],  0 == quiz_category['id'])).all()
-      
-      
       if len(questions_to_select_from) == 0:
-
         return jsonify({'questions': None })
       else:
-        #print("[r.id for r in questions_to_select_from]")
-        
         list_ids = []
-        #print([list_ids.append(r.id) for r in questions_to_select_from])
+        
         [list_ids.append(r.id) for r in questions_to_select_from]
         random_returned_id = random.choice(list_ids)
-        #previous_questions.add(random_returned_id)
-
+        print("list_ids")
+        print(list_ids)
+        print("random_returned_id")
+        print(random_returned_id)
         return jsonify({'question': Question.query.filter(Question.id == random_returned_id).one_or_none().format() })
         
          
