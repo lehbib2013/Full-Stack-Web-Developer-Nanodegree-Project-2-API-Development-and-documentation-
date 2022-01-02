@@ -16,12 +16,15 @@ source venv/bin/activate
 
 # Pererequisites  & Installations
 Python3 ,pip3 and node are required for a developper to use  current API.
-```
+
 to install all needed moduls including Flask ,SQLAlchemy ,Flask-Cors and softwares :
+```
    pip3 install requirements.txt
 ```
 with postgres running lunch:
+```
 psql trivia < trivia.psql
+```
 after moving to [starter] directory , run the backend as following:
 
 # For Mac/Linux
@@ -56,6 +59,7 @@ This app can be hosted only locally at following base url : (http://127.0.0.1:50
 **Errors handling**
 
 the errors are returned in the following [json formats] :
+
 ```
 {
   "error": 422, 
@@ -73,6 +77,7 @@ The API can return following error codes:
  
  # GET /categories
 retuns a ist of categories 
+
 ```
 sample:  curl http://127.0.0.1:5000/categories
 
@@ -201,8 +206,12 @@ sample:  curl 'http://127.0.0.1:5000/questions?page=1'
 
 # DELETE /questions/<int:question_id>
 delete a question by providing it ID .
+
 ```
 sample :  curl -X DELETE http://127.0.0.1:5000/questions/17 
+```
+
+```
 
             {
             "deleted": 17, 
@@ -288,8 +297,10 @@ this end point combine two functionalties with different returned json responses
    1. **adds a question into database** .
    ```
    sample : curl -X POST -H "Content-Type: application/json" -d '{"question":"ou est aTAR ","answer":"a ADRAR","category":"2","difficulty":"3"}' http://127.0.0.1:5000/questions
+   ```
 
-            {
+   ```
+       {
             "created": 26, 
             "questions": [
                 {
@@ -369,11 +380,14 @@ this end point combine two functionalties with different returned json responses
     ```
     
    2.**get all questions including search term (case insensitive)**:
-   ```
+  
    sample : 
+```
     curl -X POST -H "Content-Type: application/json" -d '{"search_term":"africa"}' http://127.0.0.1:5000/questions
+     ```
 
-     
+      ```
+
                 {
 
                 "currentCategory": {
@@ -415,8 +429,8 @@ this end point combine two functionalties with different returned json responses
 returns questions of given category
 ```
 sample : curl -X GET http://127.0.0.1:5000/categories/3/questions
-
-
+```
+```
         {
 
         "currentCategory": {
@@ -459,7 +473,9 @@ get questions to play the quiz. It takes category and previous question paramete
 and return a random questions within the given category, if provided, and that is not one of the previous questions.
 ```
 sample : curl -X POST 'localhost:5000/quizzes' --data '{"previous_questions": [12, 5, 9], "quiz_category": {"type": "History", "id": 2}}' --header "Content-Type: application/json"
+```
 
+```
     {
     "question":  {
     "answer":"a ADRAR",
