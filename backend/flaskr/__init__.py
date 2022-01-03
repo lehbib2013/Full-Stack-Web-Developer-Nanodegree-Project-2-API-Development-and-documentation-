@@ -11,6 +11,9 @@ from models import setup_db, Question, Category, RequestError
 # general project structure with empty TODOs was given by Udacity as initial starter code
 # the major parts of endpoint implementations are inspired from instructions video course(including how pagination is implemented),
 #  a personalized implemention in quizz endpoint
+
+# RequestError was added to help in controlling returned statue code instead of default returning 422
+# by the help https://stackoverflow.com/questions/68399132/failing-to-send-404-http-status-on-flask-when-client-tries-to-get-a-nonexistent
 QUESTIONS_PER_PAGE = 10
 
 def paginate_questions(request,selection):

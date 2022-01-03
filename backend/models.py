@@ -22,6 +22,8 @@ def setup_db(app, database_path=database_path):
 '''
 Question
 
+# this class was added to avoid return 422 no matter what reason happened so we can controller returned statue code
+# by the help of this link : https://stackoverflow.com/questions/68399132/failing-to-send-404-http-status-on-flask-when-client-tries-to-get-a-nonexistent
 '''
 class RequestError(Exception):
     def __init__(self, status):
