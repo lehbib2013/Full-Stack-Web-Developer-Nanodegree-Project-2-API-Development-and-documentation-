@@ -14,8 +14,12 @@ class TriviaTestCase(unittest.TestCase):
         """Define test variables and initialize app."""
         self.app = create_app()
         self.client = self.app.test_client
-        self.database_name = "trivia_test"
-        self.database_path = "postgres://{}/{}".format('localhost:5432', self.database_name)
+        # in case of varaibale didn t exist(such our case return spesified values)
+        self.database_host = os.getenv('DB_HOST', 'localhost:5432')
+        self.database_name = os.getenv('DB_NAME', 'trivia_test')
+
+        
+        self.database_path = "postgres://{}/{}".format(self.database_host, self.database_name)
         setup_db(self.app, self.database_path)
 
         # binds the app to the current context
@@ -74,13 +78,15 @@ class TriviaTestCase(unittest.TestCase):
 
     def test_200_delete_question(self):
 
+        # select existing question
+        current_question=Question.query.order_by(Question.id).all()[0]
 
-        res = self.client().delete("/questions/25")
+        res = self.client().delete("/questions/"+str(current_question.id))
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data["success"], True)
-        self.assertTrue(data["deleted"])
+        self.assertEqual(data["deleted"],current_question.id)
         self.assertTrue(data["questions"])
         self.assertTrue(data["totalQuestions"])
 
@@ -138,10 +144,9 @@ class TriviaTestCase(unittest.TestCase):
         res = self.client().post("/questions",json={'searchTerm':'xxx'})
         data = json.loads(res.data)
         
-        self.assertEqual(res.status_code, 404)
-        self.assertEqual(data["success"], False)
-        self.assertEqual(data["error"],404)
-        self.assertEqual(data["message"],'resource not found')
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+        
         
      
 
